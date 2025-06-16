@@ -1,0 +1,53 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block content %}
+
+    <section class="store-list">
+        <h1>Up Coming Games</h1>
+        <div class="options">
+            {% for game in games %}
+            <div class="option">
+                <div class="cover">
+                    <img src="{{ game.image.url }}" alt="{{ game.title }}">
+                </div>
+                <p>{{ game.title }}</p>
+                <div class="date">
+                    <img src="{% static 'img/calendar.png' %}" alt="date">
+                    <p>{{ game.date }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="store-list">
+        <h1>Trending Games</h1>
+        <div class="options">
+            {% for trendgame in trendgames %}
+            <div class="option">
+                <div class="cover">
+                    <img src="{{ trendgame.image.url }}" alt="{{ trendgame.title }}">
+                </div>
+                <p>{{ trendgame.title }}</p>
+                <div class="date-rating">
+                    <div class="info">
+                        <img src="{% static 'img/calendar.png' %}" alt="calendar">
+                        <p>{{ trendgame.year }}</p>
+                    </div>
+                    <div class="info">
+                        <img src="{% static 'img/rating.png' %}" alt="rating">
+                        <p><span>{{ trendgame.rating }}</span>/100</p>
+                    </div>
+                </div>
+                <div class="price">
+                    <p>{{ trendgame.first_price }}$</p>
+                    <p>{{ trendgame.second_price }}$</p>
+                    <p>{{ trendgame.discount }}%</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}

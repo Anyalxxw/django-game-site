@@ -1,0 +1,16 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="post-review details">
+        <div class="img">
+            <img src="{{ review.image.url }}" alt="{{ review.title }}">
+        </div>
+        <div class="comment">
+            <h1>{{ review.title }}<span> ({{ review.year }})</span></h1>
+            <p>{{ review.description }}</p>
+        </div>
+    </div>
+
+{% endblock content %}

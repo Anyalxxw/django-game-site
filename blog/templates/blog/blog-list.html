@@ -1,0 +1,19 @@
+{% extends "home.html" %}
+
+{% block content %}
+
+    <article class="blog-post">
+        <h1>Blog Post</h1>
+        <div class="posts">
+            {% for post in posts %}
+            <a href="{% url 'blog:blog-details' post.slug %}" class="post">
+                <div class="overlay">
+                    <h2>{{ post.title }}</h2>
+                </div>
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            </a>
+            {% endfor %}
+        </div>
+    </article>
+
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends "home.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<section class="game-reviews">
+    <h1>Game Reviews</h1>
+    <div class="reviews">
+        {% for review in reviews %}
+        <div class="review">
+            <div class="img">
+                <img src="{{ review.image.url }}" alt="{{ review.title }}">
+            </div>
+            <div class="comment">
+                <h2>{{ review.title }}<span> ({{ review.year }})</span></h2>
+                <p>{{ review.short }}</p>
+                <div class="categories">
+                    {% for g in review.genre.all %}
+                    <p>{{ g }}</p>
+                    {% endfor %}
+                </div>
+                <div class="rating-date">
+                    <div class="info">
+                        <img src="{% static 'img/rating.png' %}" alt="rating">
+                        <p><span>{{ review.rating }}</span>/100</p>
+                    </div>
+                    <div class="info">
+                        <img src="{% static 'img/calendar.png' %}" alt="calendar">
+                        <p>{{ review.day }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="likes">
+                <ul>
+                    <li>
+                        <span class="material-icons-outlined">visibility</span>
+                        <p><span>1200+</span> Views</p>
+                    </li>
+                    <li>
+                        <span class="material-icons-outlined">chat_bubble_outline</span>
+                        <p><span>112</span> Comments</p>
+                    </li>
+                    <li>
+                        <span class="material-icons-outlined">star_outline</span>
+                        <p><span>8.7</span>/10</p>
+                    </li>
+                </ul>
+                <a href="{% url 'reviews:review_details' id=review.id %}" class="btn-full">Full Review</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock content %}

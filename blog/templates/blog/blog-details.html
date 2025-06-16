@@ -1,0 +1,14 @@
+{% extends "home.html" %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="details">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.content }}</p>
+        <p>{{ post.date }}</p>
+    </div>
+
+{% endblock content %}

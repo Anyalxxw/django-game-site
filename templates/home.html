@@ -1,0 +1,421 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <nav>
+        <div class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="logo">
+        </div>
+        <a href="{% url 'home-page' %}">Home</a>
+        <a href="{% url 'blog:blog_list' %}">Blog</a>
+        <a href="{% url 'store:store_list' %}">Store</a>
+        <a href="{% url 'reviews:reviews_list' %}">Reviews</a>
+        <a href="">About us</a>
+
+        <!-- login signin buttons  -->
+        <div class="signup-login-btn">
+            {% if user.is_authenticated %}
+            <div class="logot-admin-btn">
+                <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-full">Log Out</button>
+                </form>
+                    {% if request.user.is_superuser %}
+                    <!-- admin panel -->
+                    <a href="{% url 'admin:index' %}" class="btn-empty">Admin Panel</a>
+                    {% endif %}
+            </div>
+            {% else %}
+            <a href="{% url 'accounts:signup' %}" class="btn-full">Sign up</a>
+            <a href="{% url 'accounts:login' %}" class="btn-empty">Log in</a>
+            {% endif %}
+        </div> 
+    </nav>
+
+    {% block content %}
+
+    <main>
+        <div class="content">
+            <div class="description">
+                <h1>The Witcher 3</h1>
+                <p>The Witcher 3: Wild Hunt" is an open-world <br> RPG where players follow Geralt of Rivia, a <br> monster hunter, in his quest to find his <br> adopted daughter, Ciri. Set in a richly <br> detailed and expansive world, the game <br> offers a deep narrative and complex choices <br> that affect the game's outcome.</p>
+                <!-- rating and date  -->
+                <div class="date-rating">
+                    <div class="info">
+                        <img src="{% static 'img/rating.png' %}" alt="rating">
+                        <p><span>93</span>/100</p>
+                    </div>
+                    <div class="info">
+                        <img src="{% static 'img/calendar.png' %}" alt="calendar">
+                        <p>May 19, 2015</p>
+                    </div>
+                </div>
+    
+                <div class="addition">
+                    <div class="genre-platform">
+                        <div>
+                            <h2>Available For:</h2>
+                            <p>Pc - Ps4 - Xbox One</p>
+                        </div>
+                        <div>
+                            <h2>Genre: </h2>
+                            <p>Action RPG</p>
+                        </div>
+                    </div>
+                    <div class="platforms">
+                        <p>Pc</p>
+                        <p>Ps 4</p>
+                        <p>Xbox One</p>
+                    </div>
+                </div>
+                <a href="#" class="btn-full">Buy Now</a>
+                <a href="#" class="btn-empty">Game review</a>
+            </div>
+        
+            <div class="popular-games">
+                <h2>The Most <span>Popular</span> Games</h2>
+                <div class="games">
+                    <a href="#">
+                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
+                    </a>
+                    <a href="#">
+                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
+                    </a>
+                    <a href="#">
+                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
+                    </a>
+                    <a href="#">
+                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
+                    </a>
+                    <a href="#">
+                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="game-categories">
+        <h1>Game Categories</h1>
+        <div class="categories">
+            {% comment %} {% for genre in genres %}
+            <a href="{% url 'genres:genre_games' genre.slug %}">
+                <div class="overlay">
+                    <h2>{{ genre.genre }}</h2>
+                </div>
+                <img src="{{ genre.image.url }}" alt="{{ genre.genre }}">
+            </a>
+            {% endfor %} {% endcomment %}
+        </div>
+    </section>
+
+    <article class="game-of-the-month">
+        <h1>Game of The Month</h1>
+        <div class="game">
+            <div class="description">
+                <h2>{{ game.title }}</h2>
+                <p>{{ game.description }}</p>
+                <div class="extras">
+                    <div class="rating-date">
+                        <div class="info">
+                            <img src="{% static 'img/rating.png' %}" alt="rating">
+                            <p><span>{{ game.rating }}</span>/100</p>
+                        </div>
+                        <div class="info">
+                            <img src="{% static 'img/calendar.png' %}" alt="calendar">
+                            <p>{{ game.date }}</p>
+                        </div>
+                    </div>
+                    <div class="addition">
+                        <div class="genre-platform">
+                            <div>
+                                <h2>Available For:</h2>
+                                <p>
+                                {% for platform in game.platforms.all %}
+                                    {{ platform }} {% if not forloop.last  %} - {% endif %}
+                                {% endfor %}
+                                </p>
+                            </div>
+                            <div>
+                                <h2>Genre: </h2>
+                                <p>
+                                {% for g in game.genre.all %}
+                                    {{ g }} {% if not forloop.last  %}  {% endif %}
+                                {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="platforms">
+                    {% for platform in game.platforms.all %}
+                        <p>{{ platform }}</p>       
+                    {% endfor %}
+                </div>
+                <a href="#" class="btn-full">Buy Now</a>
+                <a href="#" class="btn-empty">Game review</a>
+            </div>
+            
+            <div class="gallery">
+                <h2>Trailer & Gallery</h2>
+                <div class="trailer">
+                    <img src="{{ game.image.url }}" alt="{{ game.title }}">
+                </div>
+                <!-- надо добавить еще фотографии -->
+            </div>
+            <div class="system-requirements">
+                <div class="minimum">
+                    <h2><span>Minimum </span>System Requirements</h2>
+                    <ul>
+                        <li>
+                            <p><span>OS: </span>Windows 10 64-Bit Or Newer</p>
+                        </li>
+                        <li>
+                            <p><span>CPU: </span>Intel Core i5-8400 / AMD 5 1600</p>
+                        </li>
+                        <li>
+                            <p><span>Memory: </span>16GB RAM</p>
+                        </li>
+                        <li>
+                            <p><span>GPU: </span>NVIDIA GeForce GTX 1060 (6GB) / AMD 5 1600</p>
+                        </li>
+                        <li>
+                            <p><span>DirectX: </span>Version 11</p>
+                        </li>
+                        <li>
+                            <p><span>Storage: </span>130GB Available Space</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="recommended">
+                    <h2><span>Recommended </span>System Requirements</h2>
+                    <ul>
+                        <li>
+                            <p><span>OS: </span>Windows 10 64-Bit Or Newer</p>
+                        </li>
+                        <li>
+                            <p><span>CPU: </span>Intel Core i7-9700 / AMD Ryzen 5 5500</p>
+                        </li>
+                        <li>
+                            <p><span>Memory: </span>16GB RAM</p>
+                        </li>
+                        <li>
+                            <p><span>GPU: </span>NVIDIA GeForce GTX 2060 / AMD Radeon RX 5700Xt / INTEL Arc A750</p>
+                        </li>
+                        <li>
+                            <p><span>DirectX: </span>Version 12  </p>
+                        </li>
+                        <li>
+                            <p><span>Storage: </span>130GB Available Space</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <section class="game-reviews">
+        <h1>Game Reviews</h1>
+        <div class="reviews">
+            {% for review in reviews %}
+            <div class="review">
+                <div class="img">
+                    <img src="{{ review.image.url }}" alt="{{ review.title }}">
+                </div>
+                <div class="comment">
+                    <h2>{{ review.title }}<span> ({{ review.year }})</span></h2>
+                    <p>{{ review.short }}</p>
+                    <div class="categories">
+                        {% for g in review.genre.all %}
+                        <p>{{ g }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="rating-date">
+                        <div class="info">
+                            <img src="{% static 'img/rating.png' %}" alt="rating">
+                            <p><span>{{ review.rating }}</span>/100</p>
+                        </div>
+                        <div class="info">
+                            <img src="{% static 'img/calendar.png' %}" alt="calendar">
+                            <p>{{ review.day }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="likes">
+                    <ul>
+                        <li>
+                            <span class="material-icons-outlined">visibility</span>
+                            <p><span>1200+</span> Views</p>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">chat_bubble_outline</span>
+                            <p><span>112</span> Comments</p>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">star_outline</span>
+                            <p><span>8.7</span>/10</p>
+                        </li>
+                    </ul>
+                    <a href="{% url 'reviews:review_details' id=review.id %}" class="btn-full">Full Review</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </section>
+
+    <article class="blog-post">
+        <h1>Blog Post</h1>
+        <div class="posts">
+            {% for post in posts %}
+            <a href="{% url 'blog:blog-details' post.slug %}" class="post">
+                <div class="overlay">
+                    <h2>{{ post.title }}</h2>
+                </div>
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            </a>
+            {% endfor %}
+        </div>
+    </article>
+
+    <section class="game-experience">
+        <div class="wrapper">
+            <h1>Unlock The Ultimate <span>Gaming Experience</span></h1>
+            <p>Sign up now to dive into exclusive content, track your progress, and connect with a global community of gamers. Don’t miss out on special offers made just for you!</p>
+            <div class="options">
+                <div class="option">
+                    <h2>Access <span>Exclusive Games</span></h2>
+                    <p>Get early access to new releases and hidden gems, only for registered members. Be the first to play!</p>
+                </div>
+                <div class="option">
+                    <h2>Track <span>Stats & Achivements</span></h2>
+                    <p>Monitor gameplay stats, track achievements, and share your progress with fellow gamers easily</p>
+                </div>
+                <div class="option">
+                    <h2>Join Our <span>Community</span></h2>
+                    <p>Connect with a passionate community of gamers. Share tips, strategies, and gaming experiences</p>
+                </div>
+                <div class="option">
+                    <h2>Exclusive <span>Discounts & Offers</span></h2>
+                    <p>Enjoy member-only discounts on top-rated games, DLCs, and in-game items. Save on your favorites!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <h1>Unlock The Ultimate <span>Gaming Experience</span></h1>
+            <p>Sign up now to dive into exclusive content, track your progress, and connect with a global community of gamers. Don’t miss out on special offers made just for you!</p>
+            <div class="options">
+                <div class="option">
+                    <h2>Access <span>Exclusive Games</span></h2>
+                    <p>Get early access to new releases and hidden gems, only for registered members. Be the first to play!</p>
+                </div>
+                <div class="option">
+                    <h2>Track <span>Stats & Achivements</span></h2>
+                    <p>Monitor gameplay stats, track achievements, and share your progress with fellow gamers easily</p>
+                </div>
+                <div class="option">
+                    <h2>Join Our <span>Community</span></h2>
+                    <p>Connect with a passionate community of gamers. Share tips, strategies, and gaming experiences</p>
+                </div>
+                <div class="option">
+                    <h2>Exclusive <span>Discounts & Offers</span></h2>
+                    <p>Enjoy member-only discounts on top-rated games, DLCs, and in-game items. Save on your favorites!</p>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <section class="FAQ">
+        <h1>FAQ</h1>
+        <ul>
+            <li>
+                <div class="question">
+                    <p>What services does Prime Gaming offer?</p>
+                    <span class="material-icons-outlined">expand_more</span>
+                </div>
+                <div class="answer">
+                    <p>We provide a range of gaming content, including reviews, guides, and up-to-date gaming news. You can also access exclusive discounts, track your progress, and join our gaming community</p>
+                </div>
+            </li>
+            <li>
+                <div class="question">
+                    <p>Do I need an account to use the site?</p>
+                    <span class="material-icons-outlined">expand_more</span>
+                </div>
+                <div class="answer">
+                    <p>While browsing is free, registering an account unlocks exclusive features like tracking achievements, discounts, and joining the community</p>
+                </div>
+            </li>
+            <li>
+                <div class="question">
+                    <p>Are there any subscription fees?</p>
+                    <span class="material-icons-outlined">expand_more</span>
+                </div>
+                <div class="answer">
+                    <p>No, registering on our site is completely free. Some exclusive deals and content are member-only but come at no extra charge</p>
+                </div>
+            </li>
+            <li>
+                <div class="question">
+                    <p>How can I contact support?</p>
+                    <span class="material-icons-outlined">expand_more</span>
+                </div>
+                <div class="answer">
+                    <p>You can reach our support team via the “Contact Us” page for any inquiries or issues related to your account or services</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    {% endblock %}
+
+    <footer>
+        <div class="left-side">
+            <img src="{% static 'img/logo.png' %}" alt="logo">
+            <p>Step into the future of gaming with Prime Gaming. Explore top-tier reviews, news, and in-depth analysis on the latest and greatest games. Join the gaming community now to get exclusive content and features.</p>
+        </div>
+        <div class="right-side">
+            <ul>
+                <h2>Explore</h2>
+                <li>Trending Games</li>
+                <li>Upcoming Releases</li>
+                <li>Reviews</li>
+                <li>News</li>
+            </ul>
+            <ul>
+                <h2>Resources</h2>
+                <li>FAQ</li>
+                <li>Tutorials</li>
+                <li>Community Firum</li>
+                <li>Membership</li>
+            </ul>
+            <ul>
+                <h2>Programs</h2>
+                <li>Game Of The Month</li>
+                <li>Game Of The Year</li>
+                <li>Developer Spotlight</li>
+                <li>Beta Access</li>
+            </ul>
+            <ul>
+                <h2>Contact Us</h2>
+                <li><span class="material-icons-outlined">location_on</span> Usa - Washngton DC</li>
+                <li><span class="material-icons-outlined">phone</span> 1234-56789</li>
+                <li><span class="material-icons-outlined">email</span> PrimeGmain@Gmail.com</li>
+            </ul>
+        </div>
+    </footer>
+
+
+    <script src="{% static 'index.js' %}"></script>
+</body>
+</html>
