@@ -42,20 +42,20 @@
 
     {% block content %}
 
-    <main>
+    <main id="game-image">
         <div class="content">
             <div class="description">
-                <h1>The Witcher 3</h1>
-                <p>The Witcher 3: Wild Hunt" is an open-world <br> RPG where players follow Geralt of Rivia, a <br> monster hunter, in his quest to find his <br> adopted daughter, Ciri. Set in a richly <br> detailed and expansive world, the game <br> offers a deep narrative and complex choices <br> that affect the game's outcome.</p>
+                <h1 id="game-title">{{ featured_game.title }}</h1>
+                <p id="game-description">{{ featured_game.description }}</p>
                 <!-- rating and date  -->
                 <div class="date-rating">
                     <div class="info">
                         <img src="{% static 'img/rating.png' %}" alt="rating">
-                        <p><span>93</span>/100</p>
+                        <p><span id="game-rating">{{ featured_game.rating }}</span>/100</p>
                     </div>
                     <div class="info">
                         <img src="{% static 'img/calendar.png' %}" alt="calendar">
-                        <p>May 19, 2015</p>
+                        <p id="game-release-date">{{ featured_game.release_date }}</p>
                     </div>
                 </div>
     
@@ -63,41 +63,39 @@
                     <div class="genre-platform">
                         <div>
                             <h2>Available For:</h2>
-                            <p>Pc - Ps4 - Xbox One</p>
-                        </div>
+                            <p id="few-platforms">
+                            {% for platform in featured_game.platforms.all|slice:':3' %}
+                                {{ platform }} {% if not forloop.last %} - {% endif %}
+                            {% endfor %}
+                            </p>
+                        </div> 
                         <div>
                             <h2>Genre: </h2>
-                            <p>Action RPG</p>
+                            <p id="game-genre">
+                            {% for g in featured_game.genre.all %}
+                                {{ g }} {% if not forloop.last %} - {% endif %}
+                            {% endfor %}
+                            </p>
                         </div>
                     </div>
-                    <div class="platforms">
-                        <p>Pc</p>
-                        <p>Ps 4</p>
-                        <p>Xbox One</p>
+                    <div class="platforms" id="all-platforms">
+                        {% for platform in featured_game.platforms.all %}
+                            <p>{{ platform }}</p>
+                        {% endfor %}
                     </div>
                 </div>
-                <a href="#" class="btn-full">Buy Now</a>
-                <a href="#" class="btn-empty">Game review</a>
+                <a href="{% url 'store:store_list' %}" class="btn-full">Buy Now</a>
+                <a href="{% url 'reviews:reviews_list' %}" class="btn-empty">Game review</a>
             </div>
         
             <div class="popular-games">
                 <h2>The Most <span>Popular</span> Games</h2>
                 <div class="games">
-                    <a href="#">
-                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
-                    </a>
-                    <a href="#">
-                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
-                    </a>
-                    <a href="#">
-                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
-                    </a>
-                    <a href="#">
-                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
-                    </a>
-                    <a href="#">
-                        <img src="{% static 'img/witcher3.jpg' %}" alt="witcher3">
-                    </a>
+                    {% for game in popular_games %}
+                        <a href="#" onclick="loadGame({{ game.id }})">
+                            <img src="{{ game.cover.url }}" alt="{{ game.title }}">
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -106,14 +104,14 @@
     <section class="game-categories">
         <h1>Game Categories</h1>
         <div class="categories">
-            {% comment %} {% for genre in genres %}
-            <a href="{% url 'genres:genre_games' genre.slug %}">
+            {% for category in categories %}
+            <a href="#">
                 <div class="overlay">
-                    <h2>{{ genre.genre }}</h2>
+                    <h2>{{ category.name }}</h2>
                 </div>
-                <img src="{{ genre.image.url }}" alt="{{ genre.genre }}">
+                <img src="{{ category.image.url }}" alt="{{ category.name }}">
             </a>
-            {% endfor %} {% endcomment %}
+            {% endfor %}
         </div>
     </section>
 
@@ -148,7 +146,7 @@
                                 <h2>Genre: </h2>
                                 <p>
                                 {% for g in game.genre.all %}
-                                    {{ g }} {% if not forloop.last  %}  {% endif %}
+                                    {{ g }} {% if not forloop.last  %} - {% endif %}
                                 {% endfor %}
                                 </p>
                             </div>
@@ -160,8 +158,8 @@
                         <p>{{ platform }}</p>       
                     {% endfor %}
                 </div>
-                <a href="#" class="btn-full">Buy Now</a>
-                <a href="#" class="btn-empty">Game review</a>
+                <a href="{% url 'store:store_list' %}" class="btn-full">Buy Now</a>
+                <a href="{% url 'reviews:reviews_list' %}" class="btn-empty">Game review</a>
             </div>
             
             <div class="gallery">
@@ -308,31 +306,7 @@
                     <p>Enjoy member-only discounts on top-rated games, DLCs, and in-game items. Save on your favorites!</p>
                 </div>
             </div>
-        </div>
-
-        <div class="wrapper">
-            <h1>Unlock The Ultimate <span>Gaming Experience</span></h1>
-            <p>Sign up now to dive into exclusive content, track your progress, and connect with a global community of gamers. Don’t miss out on special offers made just for you!</p>
-            <div class="options">
-                <div class="option">
-                    <h2>Access <span>Exclusive Games</span></h2>
-                    <p>Get early access to new releases and hidden gems, only for registered members. Be the first to play!</p>
-                </div>
-                <div class="option">
-                    <h2>Track <span>Stats & Achivements</span></h2>
-                    <p>Monitor gameplay stats, track achievements, and share your progress with fellow gamers easily</p>
-                </div>
-                <div class="option">
-                    <h2>Join Our <span>Community</span></h2>
-                    <p>Connect with a passionate community of gamers. Share tips, strategies, and gaming experiences</p>
-                </div>
-                <div class="option">
-                    <h2>Exclusive <span>Discounts & Offers</span></h2>
-                    <p>Enjoy member-only discounts on top-rated games, DLCs, and in-game items. Save on your favorites!</p>
-                </div>
-            </div>
-        </div>
-        
+        </div>        
     </section>
 
     <section class="FAQ">

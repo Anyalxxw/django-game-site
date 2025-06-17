@@ -9,8 +9,7 @@ class Platform(models.Model):
     
 class Genre(models.Model):
     name = models.CharField(max_length=50)
-    image = models.ImageField(default='fc25.png')
-    slug = models.SlugField(unique=True, null=True)
+    image = models.ImageField(default='fc25.png', null=True, blank=True)
     
     def __str__(self):
         return self.name
