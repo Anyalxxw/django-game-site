@@ -34,18 +34,18 @@ A full-featured gaming website built with Django. This project is inspired by a 
 
 ## ⚙️ Installation
 
-1. **Clone the repository:**
+1. **Clone the repository:** <br/>
   git clone https://github.com/Anyalxxw/django-game-site.git <br/>
   cd django-game-site <br/>
-2. **Create and activate a virtual environment:**
+2. **Create and activate a virtual environment:** <br/>
   python -m venv venv <br/>
   source venv/bin/activate    # macOS / Linux <br/>
   venv\Scripts\activate       # Windows <br/>
-3. **Install dependencies:**
+3. **Install dependencies:** <br/>
   pip install -r requirements.txt<br/>
-4. **Apply migrations:**
+4. **Apply migrations:** <br/>
    python manage.py migrate<br/>
-5. **Run the development server:**
+5. **Run the development server:** <br/>
    python manage.py runserver<br/>
 6. **Open in browser:**
 
