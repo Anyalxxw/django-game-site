@@ -12,8 +12,8 @@ __pycache__/
 .env
 
 # Media and static
-media/
-staticfiles/
+# media/
+# staticfiles/
 
 # Virtual environments
 venv/
