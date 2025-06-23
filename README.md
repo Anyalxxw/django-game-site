@@ -27,7 +27,6 @@ A full-featured gaming website built with Django. This project is inspired by a 
 - Django 5.x
 - SQLite (default DB)
 - HTML5, CSS3, JavaScript
-- Bootstrap (or any modern CSS framework)
 - Pillow (image processing)
 
 ---
